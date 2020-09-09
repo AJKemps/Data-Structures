@@ -26,6 +26,13 @@ class DoublyLinkedList:
     def __len__(self):
         return self.length
 
+    def print_list(self):
+        current = self.head
+        while current.next:
+            print(current.value)
+            current = current.next
+        print("---")
+
     """
     Wraps the given value in a ListNode and inserts it 
     as the new head of the list. Don't forget to handle 
@@ -96,7 +103,7 @@ class DoublyLinkedList:
 
     def add_to_tail(self, value):
 
-        new_node = ListNode(value, None, None)
+        new_node = ListNode(value)
 
         if self.head is None:
             new_node.prev = None
@@ -114,6 +121,20 @@ class DoublyLinkedList:
             new_node.next = None
             self.tail = new_node
             self.length += 1
+
+        # new_node = ListNode(value)
+
+        # if self.length == 0:
+        #     self.head = new_node
+        #     self.tail = new_node
+        #     self.length += 1
+
+        # else:
+        #     prv = self.tail
+        #     prv.next = new_node
+        #     self.tail = new_node
+        #     self.tail.prev = prv
+        #     self.length += 1
 
     """
     Removes the List's current tail node, making the 
@@ -185,7 +206,33 @@ class DoublyLinkedList:
     """
 
     def move_to_end(self, node):
-        pass
+
+        if self.length == 0:
+            return
+
+        elif node == self.tail and not self.head:
+            return
+
+        elif node == self.head and not self.tail:
+            nxt = self.head.next
+            nxt.prev = None
+            self.head = nxt
+            node.prev = self.tail
+            node.next = None
+            self.tail = node
+
+        elif node == self.head and node == self.tail:
+            return
+
+        else:
+            nxt = node.next
+            prv = node.prev
+            nxt.prev = prv
+            # prv.next = nxt
+            node.prev = self.tail
+            self.tail.next = node
+            node.next = None
+            self.tail = node
 
     """
     Deletes the input node from the List, preserving the 
@@ -212,6 +259,7 @@ class DoublyLinkedList:
                     current = None
                     self.head = nxt
                     self.length -= 1
+
                     return
 
             elif current == node:
@@ -224,6 +272,7 @@ class DoublyLinkedList:
                     current.prev = None
                     current = None
                     self.length -= 1
+
                     return
 
                 else:
@@ -233,6 +282,7 @@ class DoublyLinkedList:
                     current = None
                     self.tail = prv
                     self.length -= 1
+
                     return
 
             current = current.next
@@ -243,4 +293,17 @@ class DoublyLinkedList:
     """
 
     def get_max(self):
-        pass
+
+        current = self.tail
+
+        mx = self.tail.value
+
+        while current.prev:
+            self.print_list()
+
+            if int(current.value) > mx:
+                mx = current.value
+
+            current = current.prev
+
+        return mx
