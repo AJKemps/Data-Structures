@@ -112,29 +112,21 @@ class DoublyLinkedList:
             self.length += 1
 
         else:
-            current = self.head
-            while current.next:
-                current = current.next
-
-            current.next = new_node
-            new_node.prev = current
+            self.tail.next = new_node
+            new_node.prev = self.tail
             new_node.next = None
             self.tail = new_node
             self.length += 1
 
-        # new_node = ListNode(value)
+            # current = self.head
+            # while current.next:
+            #     current = current.next
 
-        # if self.length == 0:
-        #     self.head = new_node
-        #     self.tail = new_node
-        #     self.length += 1
-
-        # else:
-        #     prv = self.tail
-        #     prv.next = new_node
-        #     self.tail = new_node
-        #     self.tail.prev = prv
-        #     self.length += 1
+            # current.next = new_node
+            # new_node.prev = current
+            # new_node.next = None
+            # self.tail = new_node
+            # self.length += 1
 
     """
     Removes the List's current tail node, making the 
@@ -208,31 +200,50 @@ class DoublyLinkedList:
     def move_to_end(self, node):
 
         if self.length == 0:
+            self.print_list()
             return
 
-        elif node == self.tail and not self.head:
+        elif self.length == 1:
+            self.print_list()
             return
 
-        elif node == self.head and not self.tail:
+        elif node == self.tail:
+            self.print_list()
+            return
+
+        elif node == self.head and self.length == 2:
+            nxt = node.next
+            node.prev = nxt
+            node.next = None
+            nxt.prev = None
+            nxt.next = node
+            self.tail = node
+            self.head = nxt
+            return
+
+        elif node == self.head:
+            self.print_list()
             nxt = self.head.next
             nxt.prev = None
             self.head = nxt
             node.prev = self.tail
             node.next = None
             self.tail = node
-
-        elif node == self.head and node == self.tail:
+            self.print_list()
             return
 
         else:
+            self.print_list()
             nxt = node.next
             prv = node.prev
             nxt.prev = prv
-            # prv.next = nxt
+            prv.next = nxt
             node.prev = self.tail
             self.tail.next = node
             node.next = None
             self.tail = node
+            self.print_list()
+            return
 
     """
     Deletes the input node from the List, preserving the 
